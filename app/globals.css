@@ -134,14 +134,13 @@ main .hero-description { font-size:15px !important; }.career-entry-description {
 .footer { background:#dddcd8; }
 
 .project-template-card.portfolio-card .project-template-front h3 { font-size:clamp(22px,calc(2.6vw - 5px),32px); }
-.project-card-thumbnail { position:absolute; top:22px; right:22px; z-index:2; width:72px; height:72px; border:4px solid rgba(255,255,255,.8); border-radius:18px; box-shadow:0 8px 18px rgba(41,48,65,.14); object-fit:cover; }
+.project-card-thumbnail { position:absolute; top:22px; right:22px; z-index:2; width:50px; height:50px; border:3px solid rgba(255,255,255,.8); border-radius:14px; box-shadow:0 8px 18px rgba(41,48,65,.14); object-fit:cover; object-position:center; }
 .portfolio-card .project-template-front h3,.portfolio-card .project-template-back h3 { max-width:calc(100% - 88px); }
-.portfolio-card .project-template-back .project-card-thumbnail { right:auto; left:22px; border-color:rgba(255,255,255,.28); box-shadow:none; }
+.portfolio-card .project-template-back .project-card-thumbnail { border-color:rgba(255,255,255,.28); box-shadow:none; }
 
 @media (max-width:760px) {
   .project-template-card.portfolio-card .project-template-front h3 { font-size:26px; }
-  .project-card-thumbnail { top:18px; right:18px; width:60px; height:60px; border-radius:15px; }
-  .portfolio-card .project-template-back .project-card-thumbnail { right:18px; left:auto; }
+  .project-card-thumbnail { top:18px; right:18px; width:50px; height:50px; border-radius:14px; }
   .portfolio-card .project-template-front h3,.portfolio-card .project-template-back h3 { max-width:calc(100% - 74px); }
 }
 

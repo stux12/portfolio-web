@@ -193,7 +193,7 @@ export default function ProjectShowcase() {
             <article className={`project-template-card ${project.tone} ${project.id === "service" ? "portfolio-card" : ""} ${isFlipped ? "is-flipped" : ""}`} key={project.id}>
               <div className="project-template-inner">
                 <div className="project-template-face project-template-front">
-                  {project.thumbnail && <Image className="project-card-thumbnail" src={project.thumbnail} alt={`${project.title} 대표 이미지`} width={72} height={72} />}
+                  {project.thumbnail && <Image className="project-card-thumbnail" src={project.thumbnail} alt={`${project.title} 대표 이미지`} width={50} height={50} />}
                   <p>{project.category}</p>
                   <h3>{project.title}</h3>
                   <span>{project.summary}</span>
@@ -208,7 +208,7 @@ export default function ProjectShowcase() {
                   <i aria-hidden="true">↗</i>
                 </div>
                 <div className="project-template-face project-template-back">
-                  {project.thumbnail && <Image className="project-card-thumbnail" src={project.thumbnail} alt="" width={72} height={72} />}
+                  {project.thumbnail && <Image className="project-card-thumbnail" src={project.thumbnail} alt="" width={50} height={50} />}
                   <p>기술 스택</p>
                   <h3>{project.title}</h3>
                   <div className="project-template-stack">
