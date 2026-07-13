@@ -47,6 +47,11 @@ export default function SiteEngagement() {
 
   return (
     <div className="engagement-actions">
+      <aside className="engagement-stats" aria-label="방문 기록">
+        <span>방문 기록</span>
+        <strong><em>오늘</em>{formatter.format(stats.today)}</strong>
+        <strong><em>누적</em>{formatter.format(stats.total)}</strong>
+      </aside>
       <button
         className={`like-orb ${stats.liked ? "is-liked" : ""}`}
         type="button"
@@ -58,11 +63,6 @@ export default function SiteEngagement() {
         <span aria-hidden="true">👍</span>
         <b>{formatter.format(stats.likes)}</b>
       </button>
-      <aside className="engagement-stats" aria-label="방문 기록">
-        <span>방문 기록</span>
-        <strong><em>오늘</em>{formatter.format(stats.today)}</strong>
-        <strong><em>누적</em>{formatter.format(stats.total)}</strong>
-      </aside>
     </div>
   );
 }
