@@ -58,7 +58,7 @@ const projectTemplates: ProjectTemplate[] = [
     title: "진환's 포트폴리오",
     category: "개인 프로젝트 01",
     summary: "경력과 기술 스택, 프로젝트 기록을 한곳에서 보여주고 개발 과정과 판단을 더 자세히 설명하기 위해 만든 개인 포트폴리오 사이트입니다.",
-    stack: ["Next.js", "React", "TypeScript", "CSS", "Node.js", "ESLint", "Git", "GitHub", "Vercel", "Open Graph", "Web App Manifest", "OpenAI Codex"],
+    stack: ["Next.js", "React", "TypeScript", "CSS", "Node.js", "ESLint", "Git", "GitHub", "Vercel", "Web App Manifest", "OpenAI Codex"],
     tone: "lavender",
     readme: {
       overview: "경력과 기술 스택, 프로젝트 기록을 한곳에서 보여주고 개발 과정과 판단을 더 자세히 설명하기 위해 만든 개인 포트폴리오 사이트입니다.",
