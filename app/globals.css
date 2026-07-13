@@ -134,9 +134,9 @@ main .hero-description { font-size:15px !important; }.career-entry-description {
 .footer { background:#dddcd8; }
 
 .project-template-card.portfolio-card .project-template-front h3 { font-size:clamp(22px,calc(2.6vw - 5px),32px); }
-.project-card-thumbnail { position:absolute; top:22px; right:22px; z-index:2; width:50px; height:50px; border:3px solid rgba(255,255,255,.8); border-radius:14px; box-shadow:0 8px 18px rgba(41,48,65,.14); object-fit:cover; object-position:center; }
+.project-template-card.portfolio-card { position:relative; }
+.project-card-thumbnail { position:absolute; top:22px; right:22px; z-index:3; width:50px; height:50px; border:3px solid rgba(255,255,255,.8); border-radius:14px; box-shadow:0 8px 18px rgba(41,48,65,.14); object-fit:cover; object-position:center; }
 .portfolio-card .project-template-front h3,.portfolio-card .project-template-back h3 { max-width:calc(100% - 88px); }
-.portfolio-card .project-template-back .project-card-thumbnail { border-color:rgba(255,255,255,.28); box-shadow:none; }
 
 @media (max-width:760px) {
   .project-template-card.portfolio-card .project-template-front h3 { font-size:26px; }
