@@ -26,6 +26,8 @@ npm run dev
 | `app/page.tsx` | 첫 화면, 프로필, 총 경력 카드, 커리어 타임라인 | 이름·연락처·경력·회사별 성과 수정 |
 | `app/data/projects.ts` | 상단 기술 스택 데이터 | 기술 추가·삭제·분류 변경 |
 | `app/components/project-showcase.tsx` | 프로젝트 카드, 카드 전환, README 모달, 프로젝트 상세 데이터 | 개인 프로젝트 추가와 상세 README 작성 |
+| `app/components/site-engagement.tsx` | 방문 기록과 좋아요 UI | Supabase 연결 후 방문·좋아요 표시 |
+| `app/api/engagement/route.ts` | 방문·좋아요 API | IP 해시와 Supabase RPC 호출 |
 | `app/components/top-link.tsx` | 상단 워드마크와 최상단 이동 | 브랜드 문구 또는 이동 방식 변경 |
 | `app/globals.css` | 전체 디자인 토큰, 반응형, 카드·모달 스타일 | 디자인과 레이아웃 수정 |
 | `app/layout.tsx` | 탭 제목, 검색·공유 메타데이터, Open Graph 이미지 | 사이트 제목·설명·대표 이미지 변경 |
@@ -95,6 +97,10 @@ npm run dev
 4. 프로젝트 개발 처음부터 끝 — 기획, 구현, 검증, 배포 결과를 순서대로 기록
 
 현재의 02·03 카드가 실제 프로젝트로 바뀌면 `title`, `summary`, `stack`, `readme`를 함께 교체합니다. 아직 기록이 없다면 카드와 README 버튼을 노출하지 않는 편이 더 좋습니다.
+
+### 방문 기록과 좋아요
+
+방문자·좋아요 기능은 Vercel API와 Supabase를 함께 사용합니다. 최초 연결 방법과 보안 규칙은 [Supabase 연결 문서](docs/supabase-engagement.md)를 따릅니다.
 
 ## 디자인 규칙
 

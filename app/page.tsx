@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ProjectShowcase from "./components/project-showcase";
+import SiteEngagement from "./components/site-engagement";
 import TopLink from "./components/top-link";
 import { skillGroups } from "./data/projects";
 
@@ -169,6 +170,7 @@ export default function Home() {
       <footer className="footer section-wrap">
         <small>© 2026. Kim JinHwan Portfolio. All rights reserved.</small>
       </footer>
+      <SiteEngagement />
     </main>
   );
 }
