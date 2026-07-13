@@ -114,3 +114,17 @@ main .hero-description { font-size:15px !important; }.career-entry-description {
 @media (max-width:760px) { .vibe-process-list article { padding:13px; }.vibe-process-list p,.vibe-principles li { font-size:10px; } }
 
 @media (max-width:760px) { .project-template-card:first-child,.project-template-card:first-child .project-template-inner { min-height:352px; } }
+
+.architecture-choice-list { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.architecture-choice-list article { min-width:0; overflow-wrap:anywhere; }
+.architecture-inline-title { white-space:normal; overflow-wrap:anywhere; }
+
+@media (max-width:760px) {
+  .project-template-inner { transform:none !important; }
+  .project-template-face { transform:none !important; transition:opacity .22s ease; }
+  .project-template-front { opacity:1; pointer-events:auto; }
+  .project-template-back { opacity:0; pointer-events:none; }
+  .project-template-card.is-flipped .project-template-front { opacity:0; pointer-events:none; }
+  .project-template-card.is-flipped .project-template-back { opacity:1; pointer-events:auto; }
+  .architecture-choice-list { grid-template-columns:minmax(0,1fr); }
+}
