@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local Git SSH key (never commit)
+.git-ssh/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
