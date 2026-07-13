@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type ReadmeDocument = {
@@ -24,6 +25,7 @@ type ProjectTemplate = {
   summary: string;
   stack: string[];
   tone: "lavender" | "mint" | "peach";
+  thumbnail?: string;
   readme?: ReadmeDocument;
   note?: string;
 };
@@ -60,6 +62,7 @@ const projectTemplates: ProjectTemplate[] = [
     summary: "경력과 기술 스택, 프로젝트 기록을 한곳에서 보여주고 개발 과정과 판단을 더 자세히 설명하기 위해 만든 개인 포트폴리오 사이트입니다.",
     stack: ["Next.js", "React", "TypeScript", "CSS", "Node.js", "Vercel Functions", "Supabase", "PostgreSQL", "Git", "GitHub", "Vercel", "Web App Manifest", "OpenAI Codex"],
     tone: "lavender",
+    thumbnail: "/og-jh.png",
     readme: {
       overview: "경력과 기술 스택, 프로젝트 기록을 한곳에서 보여주고 개발 과정과 판단을 더 자세히 설명하기 위해 만든 개인 포트폴리오 사이트입니다.",
       features: ["경력과 기술 스택을 한눈에 보여주는 첫 화면", "프로젝트 카드를 통한 기술 스택과 상세 기록 탐색", "README 모달로 제공하는 기술적 맥락", "모바일 환경까지 고려한 반응형 화면", "오늘·누적 방문 기록과 IP 해시 기반의 1회 좋아요", "대표 도메인·검색·공유 정보를 갖춘 공개 배포 환경"],
@@ -190,6 +193,7 @@ export default function ProjectShowcase() {
             <article className={`project-template-card ${project.tone} ${project.id === "service" ? "portfolio-card" : ""} ${isFlipped ? "is-flipped" : ""}`} key={project.id}>
               <div className="project-template-inner">
                 <div className="project-template-face project-template-front">
+                  {project.thumbnail && <Image className="project-card-thumbnail" src={project.thumbnail} alt={`${project.title} 대표 이미지`} width={72} height={72} />}
                   <p>{project.category}</p>
                   <h3>{project.title}</h3>
                   <span>{project.summary}</span>
@@ -204,6 +208,7 @@ export default function ProjectShowcase() {
                   <i aria-hidden="true">↗</i>
                 </div>
                 <div className="project-template-face project-template-back">
+                  {project.thumbnail && <Image className="project-card-thumbnail" src={project.thumbnail} alt="" width={72} height={72} />}
                   <p>기술 스택</p>
                   <h3>{project.title}</h3>
                   <div className="project-template-stack">
