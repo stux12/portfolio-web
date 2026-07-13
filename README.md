@@ -57,6 +57,8 @@ npm run dev
 
 `app/components/project-showcase.tsx`의 `projectTemplates` 배열에 프로젝트 객체를 추가합니다. 화면을 복제하지 말고, 데이터만 추가합니다.
 
+다른 AI와 프로젝트 정보를 정리할 때는 [개인 프로젝트 정리 입력 양식](docs/project-intake-template.md)을 사용합니다.
+
 필수 항목:
 
 ```ts
