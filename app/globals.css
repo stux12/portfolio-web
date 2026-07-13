@@ -132,3 +132,9 @@ main .hero-description { font-size:15px !important; }.career-entry-description {
 }
 
 .footer { background:#dddcd8; }
+
+.project-template-card.portfolio-card .project-template-front h3 { font-size:clamp(22px,2.6vw,32px); }
+
+@media (max-width:760px) {
+  .project-template-card.portfolio-card .project-template-front h3 { font-size:26px; }
+}

@@ -88,6 +88,7 @@ const projectTemplates: ProjectTemplate[] = [
           "프롬프트는 구현 지시가 아니라 요구사항·제약 조건·완료 기준을 전달하는 문서로 작성했습니다.",
           "AI가 만든 결과라도 사용자 경험, 사실성, 반응형 동작과 빌드 성공 여부는 직접 확인한 뒤 반영했습니다.",
           "관련 없는 영역을 함께 바꾸지 않고, 변경 범위를 작게 유지해 회귀 가능성을 낮추는 것을 원칙으로 삼았습니다.",
+          "반복되는 프로젝트 등록·모바일 검증·배포 절차는 SKILL과 AGENTS 문서로 남겨, 다음 수정에서도 같은 구조와 검증 기준을 재사용하도록 했습니다.",
         ],
       },
     },
@@ -185,7 +186,7 @@ export default function ProjectShowcase() {
           const isFlipped = flippedProject === project.id;
 
           return (
-            <article className={`project-template-card ${project.tone} ${isFlipped ? "is-flipped" : ""}`} key={project.id}>
+            <article className={`project-template-card ${project.tone} ${project.id === "service" ? "portfolio-card" : ""} ${isFlipped ? "is-flipped" : ""}`} key={project.id}>
               <div className="project-template-inner">
                 <div className="project-template-face project-template-front">
                   <p>{project.category}</p>
