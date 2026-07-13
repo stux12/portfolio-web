@@ -126,5 +126,9 @@ main .hero-description { font-size:15px !important; }.career-entry-description {
   .project-template-back { opacity:0; pointer-events:none; }
   .project-template-card.is-flipped .project-template-front { opacity:0; pointer-events:none; }
   .project-template-card.is-flipped .project-template-back { opacity:1; pointer-events:auto; }
-  .architecture-choice-list { grid-template-columns:minmax(0,1fr); }
+  .architecture-choice-list { width:100%; max-width:100%; min-width:0; grid-template-columns:minmax(0,1fr); overflow:hidden; }
+  .architecture-choice-list article { width:100%; max-width:100%; min-width:0; overflow:hidden; }
+  .architecture-inline-title,.architecture-inline-title > span { max-width:100%; white-space:normal; overflow-wrap:anywhere; }
 }
+
+.footer { background:#f1f0ed; }
