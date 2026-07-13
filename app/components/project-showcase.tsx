@@ -58,11 +58,11 @@ const projectTemplates: ProjectTemplate[] = [
     title: "진환's 포트폴리오",
     category: "개인 프로젝트 01",
     summary: "경력과 기술 스택, 프로젝트 기록을 한곳에서 보여주고 개발 과정과 판단을 더 자세히 설명하기 위해 만든 개인 포트폴리오 사이트입니다.",
-    stack: ["Next.js", "React", "TypeScript", "CSS", "Node.js", "ESLint", "Git", "GitHub", "Vercel", "OpenAI Codex"],
+    stack: ["Next.js", "React", "TypeScript", "CSS", "Node.js", "ESLint", "Git", "GitHub", "Vercel", "Open Graph", "Web App Manifest", "OpenAI Codex"],
     tone: "lavender",
     readme: {
       overview: "경력과 기술 스택, 프로젝트 기록을 한곳에서 보여주고 개발 과정과 판단을 더 자세히 설명하기 위해 만든 개인 포트폴리오 사이트입니다.",
-      features: ["경력과 기술 스택을 한눈에 보여주는 첫 화면", "프로젝트 카드를 통한 기술 스택과 상세 기록 탐색", "README 모달로 제공하는 기술적 맥락", "모바일 환경까지 고려한 반응형 화면"],
+      features: ["경력과 기술 스택을 한눈에 보여주는 첫 화면", "프로젝트 카드를 통한 기술 스택과 상세 기록 탐색", "README 모달로 제공하는 기술적 맥락", "모바일 환경까지 고려한 반응형 화면", "대표 도메인·검색·공유 정보를 갖춘 공개 배포 환경"],
       architecture: {
         description: "정적 콘텐츠와 상호작용을 분리하고, 프로젝트 데이터만 추가하면 같은 화면 구조를 재사용할 수 있도록 설계했습니다.",
         choices: [
@@ -70,8 +70,9 @@ const projectTemplates: ProjectTemplate[] = [
           { category: "상호작용", name: "React · Client Component", reason: "카드 뒤집기, README 모달, 최상단 이동처럼 사용자 입력이 필요한 영역에만 상태와 이벤트를 적용했습니다." },
           { category: "데이터 확장성", name: "TypeScript · Data-driven UI", reason: "프로젝트 제목·기술 스택·README를 타입과 데이터로 관리해, 새 프로젝트를 화면 복제 없이 추가할 수 있게 구성했습니다." },
           { category: "디자인 규칙", name: "CSS Token · Component Composition", reason: "색상 변수를 기준으로 화면 톤을 통일하고, 페이지·쇼케이스·최상단 이동 기능을 역할별 컴포넌트로 분리했습니다." },
+          { category: "공개 품질", name: "Next.js Metadata · Open Graph", reason: "대표 도메인을 기준으로 제목·설명·canonical URL·공유 메타데이터를 정의하고, 웹 앱 매니페스트와 SVG 아이콘을 추가해 검색·공유·브라우저 탭에서 포트폴리오의 정체성이 일관되게 보이도록 구성했습니다." },
         ],
-        deployment: "GitHub 저장소를 연결한 뒤 Vercel Hobby 플랜으로 배포하고, main 브랜치 반영 시 자동 빌드·배포되도록 구성할 예정입니다. Next.js에 별도 설정 없이 연동할 수 있어 개인 포트폴리오 환경에 적합하다고 판단했습니다.",
+        deployment: "GitHub 저장소를 Vercel Hobby 플랜과 연결해 jinhwan-portfolio.vercel.app 도메인으로 배포했습니다. main 브랜치 반영 시 Vercel이 자동으로 빌드·배포하며, 실제 배포 결과와 대표 URL·검색 메타데이터까지 확인하는 흐름으로 운영합니다. Next.js와 별도 배포 설정 없이 연동할 수 있어 개인 포트폴리오 환경에 적합하다고 판단했습니다.",
       },
       implementation: {
         overview: "AI Codex를 단순 코드 생성 도구가 아니라, 요구사항을 구조화하고 작은 변경을 빠르게 검증하는 개발 파트너로 활용했습니다. 방향과 완료 기준은 제가 결정하고, 구현 결과는 화면·린트·프로덕션 빌드로 확인하는 방식으로 진행했습니다.",
@@ -81,6 +82,7 @@ const projectTemplates: ProjectTemplate[] = [
           { label: "03", title: "데이터 중심으로 구현", description: "프로젝트 카드와 README 내용을 타입이 있는 데이터로 분리하고, 컴포넌트는 데이터를 렌더링하는 역할에 집중시켰습니다. 다음 개인 프로젝트를 추가할 때 화면을 복제하지 않고 데이터만 추가할 수 있도록 구성했습니다." },
           { label: "04", title: "입력 방식과 반응형 문제 해결", description: "데스크톱의 hover 카드가 모바일 터치 환경에서는 동작하지 않는 문제를 확인했습니다. 선택 상태와 ‘기술 스택 보기’ 버튼을 별도로 두어, 입력 방식이 달라도 같은 정보에 접근할 수 있게 보완했습니다." },
           { label: "05", title: "검증 가능한 바이브 코딩", description: "요청 단위로 변경 범위를 제한하고, 매 변경 후 린트·프로덕션 빌드·브라우저 동작을 확인했습니다. 모달의 배경 스크롤, 헤더 고정, Contents 활성화처럼 화면에서만 드러나는 문제도 실제 상태를 확인한 뒤 수정했습니다." },
+          { label: "06", title: "공개 배포와 기본 운영 준비", description: "GitHub main 브랜치와 Vercel 자동 배포를 연결하고, 대표 도메인과 검색·공유 메타데이터를 적용했습니다. 배포 완료 후에는 실제 도메인에서 화면과 canonical URL, 설명, 아이콘 노출을 다시 확인해 로컬 결과와 공개 환경의 차이를 줄였습니다." },
         ],
         principles: [
           "프롬프트는 구현 지시가 아니라 요구사항·제약 조건·완료 기준을 전달하는 문서로 작성했습니다.",
@@ -249,7 +251,7 @@ export default function ProjectShowcase() {
                     <section id="readme-overview" onClick={() => setActiveSection("readme-overview")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>01</span>{"\u00A0\u00A0"}프로젝트 개요</h4><p>{readme.overview}</p></section>
                     <section id="readme-features" onClick={() => setActiveSection("readme-features")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>02</span>{"\u00A0\u00A0"}핵심 기능</h4><ul>{readme.features.map((feature) => <li key={feature}>{feature}</li>)}</ul></section>
                     <section id="readme-architecture" onClick={() => setActiveSection("readme-architecture")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>03</span>{"\u00A0\u00A0"}구조와 기술 선택</h4><p>{readme.architecture.description}</p><div className="architecture-choice-list">{readme.architecture.choices.map((choice) => <article key={choice.name}><strong className="architecture-inline-title"><span>{choice.category}</span>{"\u00A0\u00A0"}{choice.name}</strong><p>{choice.reason}</p></article>)}</div><div className="deployment-plan"><span>배포 방식</span><strong>GitHub → Vercel</strong><p>{readme.architecture.deployment}</p></div></section>
-                    <section id="readme-implementation" onClick={() => setActiveSection("readme-implementation")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>04</span>{"\u00A0\u00A0"}프로젝트 개발 처음부터 끝</h4><p>{readme.implementation.overview}</p><div className="vibe-process-list" style={{ display: "grid", gridTemplateColumns: isCompact ? "1fr" : "repeat(2, minmax(0, 1fr))", gap: 10 }}>{readme.implementation.steps.map((step, index) => <article key={step.label} style={{ display: "flex", flexDirection: "column", minHeight: 164, padding: 18, borderRadius: 16, border: "1px solid rgba(74, 84, 100, .08)", background: ["var(--lavender)", "var(--mint)", "var(--peach)", "#f7f6f3", "var(--lavender)"][index] }}><span style={{ display: "grid", placeItems: "center", width: 30, height: 30, borderRadius: "50%", background: "var(--ink)", color: "#fff", fontSize: 10, fontWeight: 800 }}>{step.label}</span><h5 style={{ margin: "18px 0 7px", color: "var(--ink)", fontSize: 15, letterSpacing: "-.04em" }}>{step.title}</h5><p style={{ margin: 0, color: "#566170", fontSize: 11, fontWeight: 700, lineHeight: 1.65 }}>{step.description}</p></article>)}</div><div className="vibe-principles" style={{ marginTop: 12, padding: 18, borderRadius: 16, background: "#f3f1ff", color: "var(--ink)" }}><strong style={{ fontSize: 12 }}>AI Codex와 함께한 개발 원칙</strong><ul style={{ marginTop: 11 }}>{readme.implementation.principles.map((principle) => <li key={principle} style={{ color: "#566170" }}>{principle}</li>)}</ul></div></section>
+                    <section id="readme-implementation" onClick={() => setActiveSection("readme-implementation")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>04</span>{"\u00A0\u00A0"}프로젝트 개발 처음부터 끝</h4><p>{readme.implementation.overview}</p><div className="vibe-process-list" style={{ display: "grid", gridTemplateColumns: isCompact ? "1fr" : "repeat(2, minmax(0, 1fr))", gap: 10 }}>{readme.implementation.steps.map((step, index) => <article key={step.label} style={{ display: "flex", flexDirection: "column", minHeight: 164, padding: 18, borderRadius: 16, border: "1px solid rgba(74, 84, 100, .08)", background: ["var(--lavender)", "var(--mint)", "var(--peach)", "#f7f6f3", "var(--lavender)", "var(--mint)"][index] }}><span style={{ display: "grid", placeItems: "center", width: 30, height: 30, borderRadius: "50%", background: "var(--ink)", color: "#fff", fontSize: 10, fontWeight: 800 }}>{step.label}</span><h5 style={{ margin: "18px 0 7px", color: "var(--ink)", fontSize: 15, letterSpacing: "-.04em" }}>{step.title}</h5><p style={{ margin: 0, color: "#566170", fontSize: 11, fontWeight: 700, lineHeight: 1.65 }}>{step.description}</p></article>)}</div><div className="vibe-principles" style={{ marginTop: 12, padding: 18, borderRadius: 16, background: "#f3f1ff", color: "var(--ink)" }}><strong style={{ fontSize: 12 }}>AI Codex와 함께한 개발 원칙</strong><ul style={{ marginTop: 11 }}>{readme.implementation.principles.map((principle) => <li key={principle} style={{ color: "#566170" }}>{principle}</li>)}</ul></div></section>
                   </>;
                 })()}
               </div>
