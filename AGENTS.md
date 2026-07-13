@@ -1,5 +1,7 @@
 # Portfolio Web Agent Rules
 
+> Next.js version note: this project uses Next.js 16.2.10. Before changing framework APIs, routing conventions, or build configuration, read the relevant guide in `node_modules/next/dist/docs/` and heed deprecation notices.
+
 ## Project intent
 
 This is Kim JinHwan's Korean portfolio site for a full-cycle developer. It presents backend development together with infrastructure, DevOps, database, deployment, and service-operation experience.
