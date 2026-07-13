@@ -71,7 +71,6 @@ const projectTemplates: ProjectTemplate[] = [
           { category: "데이터 확장성", name: "TypeScript · Data-driven UI", reason: "프로젝트 제목·기술 스택·README를 타입과 데이터로 관리해, 새 프로젝트를 화면 복제 없이 추가할 수 있게 구성했습니다." },
           { category: "디자인 규칙", name: "CSS Token · Component Composition", reason: "색상 변수를 기준으로 화면 톤을 통일하고, 페이지·쇼케이스·최상단 이동 기능을 역할별 컴포넌트로 분리했습니다." },
           { category: "운영 데이터", name: "Vercel Functions · Supabase", reason: "방문과 좋아요 요청은 Next.js Route Handler에서 처리하고, IP 원문 대신 서버에서 생성한 HMAC 해시만 Supabase PostgreSQL에 전달합니다. 날짜별 방문 기록과 좋아요를 분리해 오늘·누적 지표와 동일 IP의 중복 좋아요를 관리합니다." },
-          { category: "공개 품질", name: "Next.js Metadata · Open Graph", reason: "대표 도메인을 기준으로 제목·설명·canonical URL·공유 메타데이터를 정의하고, 웹 앱 매니페스트와 SVG 아이콘을 추가해 검색·공유·브라우저 탭에서 포트폴리오의 정체성이 일관되게 보이도록 구성했습니다." },
         ],
         deployment: "GitHub 저장소로 코드 이력을 관리하고 Vercel Hobby 플랜의 jinhwan-portfolio.vercel.app 도메인에 프로덕션 배포했습니다. Vercel의 Next.js 빌드 환경과 Functions를 활용해 별도 서버를 운영하지 않고도 화면과 방문·좋아요 API를 함께 제공하며, 배포 뒤에는 운영 URL의 응답과 주요 화면을 확인하는 흐름으로 관리합니다.",
       },
