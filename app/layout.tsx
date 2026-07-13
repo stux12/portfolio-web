@@ -32,12 +32,21 @@ export const metadata: Metadata = {
     title: "진환's 포트폴리오 | 풀사이클 개발자 김진환",
     description:
       "백엔드, 클라우드 전환, 인프라, DevOps와 서비스 운영까지 연결하는 풀사이클 개발자 포트폴리오입니다.",
+    images: [
+      {
+        url: "/og-jh.png",
+        width: 1730,
+        height: 909,
+        alt: "진환's 포트폴리오 JH 대표 이미지",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "진환's 포트폴리오 | 풀사이클 개발자 김진환",
     description:
       "백엔드, 클라우드 전환, 인프라, DevOps와 서비스 운영까지 연결하는 풀사이클 개발자 포트폴리오입니다.",
+    images: ["/og-jh.png"],
   },
   robots: {
     index: true,
