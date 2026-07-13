@@ -35,7 +35,7 @@ set search_path = public
 as $$
   select
     (select count(*) from portfolio_daily_visitors where visit_date = timezone('Asia/Seoul', now())::date),
-    (select count(*) from portfolio_visitors),
+    (select count(*) from portfolio_daily_visitors),
     (select count(*) from portfolio_likes),
     exists(select 1 from portfolio_likes where visitor_hash = p_visitor_hash);
 $$;

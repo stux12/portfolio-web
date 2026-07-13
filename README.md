@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-- 로컬 주소: `http://localhost:3000`
+- 로컬 주소: `http://localhost:3001`
 - 확인 명령: `npm run lint`, `npm run build`
 - 원격 저장소: `https://github.com/stux12/portfolio-web`
 - 운영 주소: `https://jinhwan-portfolio.vercel.app`

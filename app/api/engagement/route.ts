@@ -6,8 +6,22 @@ export const dynamic = "force-dynamic";
 
 type EngagementAction = "visit" | "like";
 type EngagementStats = { today: number; total: number; likes: number; liked: boolean };
+type DevelopmentEngagementStore = { visitors: Set<string>; likes: Set<string> };
 
 const responseHeaders = { "Cache-Control": "no-store" };
+
+const developmentStore = (() => {
+  const runtime = globalThis as typeof globalThis & {
+    __portfolioDevelopmentEngagement?: DevelopmentEngagementStore;
+  };
+
+  runtime.__portfolioDevelopmentEngagement ??= {
+    visitors: new Set<string>(),
+    likes: new Set<string>(),
+  };
+
+  return runtime.__portfolioDevelopmentEngagement;
+})();
 
 function environment() {
   const url = process.env.SUPABASE_URL;
@@ -52,18 +66,41 @@ async function invokeRpc(
   return rows[0];
 }
 
+function developmentStats(request: NextRequest, action: EngagementAction): EngagementStats {
+  const hash = visitorHash(request, "local-development");
+
+  developmentStore.visitors.add(hash);
+  if (action === "like") developmentStore.likes.add(hash);
+
+  return {
+    today: developmentStore.visitors.size,
+    total: developmentStore.visitors.size,
+    likes: developmentStore.likes.size,
+    liked: developmentStore.likes.has(hash),
+  };
+}
+
 export async function POST(request: NextRequest) {
   if (!isAllowedOrigin(request)) {
     return NextResponse.json({ message: "허용되지 않은 요청입니다." }, { status: 403, headers: responseHeaders });
   }
 
-  const config = environment();
-  if (!config) return NextResponse.json({ configured: false }, { headers: responseHeaders });
-
   try {
     const body = (await request.json()) as { action?: EngagementAction };
     if (body.action !== "visit" && body.action !== "like") {
       return NextResponse.json({ message: "알 수 없는 요청입니다." }, { status: 400, headers: responseHeaders });
+    }
+
+    const config = environment();
+    if (!config) {
+      if (process.env.NODE_ENV !== "development") {
+        return NextResponse.json({ configured: false }, { headers: responseHeaders });
+      }
+
+      return NextResponse.json(
+        { configured: true, ...developmentStats(request, body.action) },
+        { headers: responseHeaders },
+      );
     }
 
     const stats = await invokeRpc(
