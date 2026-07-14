@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ProjectShowcase from "./components/project-showcase";
+import ProfileCard from "./components/profile-card";
 import SiteEngagement from "./components/site-engagement";
 import TopLink from "./components/top-link";
 import { skillGroups } from "./data/projects";
@@ -86,19 +87,7 @@ export default function Home() {
             </p>
             <a className="primary-link" href="#career">커리어 살펴보기 <span>→</span></a>
           </div>
-          <aside className="profile-card" aria-label="프로필 사진 영역">
-            <div className="photo-placeholder profile-photo-frame">
-              <Image className="profile-photo" src="/profile-jinhwan.png" alt="숲길을 걷는 김진환의 프로필 사진" width={896} height={1196} priority sizes="(max-width: 760px) 120px, 290px" />
-            </div>
-            <div className="profile-meta">
-              <strong>김진환</strong>
-              <p>1997.09.17</p>
-              <div className="profile-contact">
-                <a href="mailto:stux12@naver.com">stux12@naver.com</a>
-                <a href="tel:01028308290">010-2830-8290</a>
-              </div>
-            </div>
-          </aside>
+          <ProfileCard />
         </div>
 
         <div className="hero-grid" aria-label="핵심 경력 및 기술">

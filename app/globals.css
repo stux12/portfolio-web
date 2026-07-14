@@ -41,6 +41,40 @@ a { color:inherit; text-decoration:none; }
 .hero h1 { word-break:keep-all; }
 .profile-photo-frame { overflow:hidden; background:#d7e3da; }
 .profile-photo { width:100%; height:100%; object-fit:cover; object-position:center; }
+.profile-card { padding:0; background:transparent; box-shadow:none; perspective:1000px; }
+.profile-card-inner { display:grid; width:100%; transition:transform .7s cubic-bezier(.2,.75,.2,1); transform-style:preserve-3d; }
+.profile-card.is-revealed .profile-card-inner { transform:rotateY(180deg); }
+.profile-card-face { grid-area:1 / 1; min-width:0; display:flex; flex-direction:column; padding:13px; border-radius:26px; background:#fff; box-shadow:0 18px 40px rgba(68,75,130,.13); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+.profile-card-back { transform:rotateY(180deg); background:var(--peach); }
+.profile-photo-frame { position:relative; }
+.profile-card-face .photo-placeholder { flex-shrink:0; }
+.profile-gemini-trigger { position:absolute; right:0; bottom:-8px; width:84px; height:84px; padding:0; border:0; background:transparent; cursor:pointer; }
+.profile-gemini-trigger:before { content:"여기를 톡!"; position:absolute; right:4px; bottom:62px; width:max-content; padding:6px 8px; border-radius:999px; background:rgba(255,255,255,.88); box-shadow:0 5px 13px rgba(41,48,65,.12); color:var(--blue-dark); font-family:inherit; font-size:11px; font-weight:900; white-space:nowrap; }
+.profile-gemini-trigger:hover:before { background:#fff; transform:translateY(-2px); }
+.profile-gemini-trigger:focus-visible { outline:2px solid #fff; outline-offset:-6px; border-radius:14px; }
+.profile-card-back { justify-content:center; background:var(--peach); text-align:center; }
+.profile-intro-copy { display:flex; flex-direction:column; align-items:center; gap:13px; padding:16px; }
+.profile-intro-copy > span { padding:6px 9px; border-radius:999px; background:rgba(255,255,255,.72); color:#b26b63; font-size:9px; font-weight:900; letter-spacing:.12em; }
+.profile-intro-copy > strong { color:var(--ink); font-size:28px; line-height:1.22; letter-spacing:-.07em; }
+.profile-intro-copy p { margin:0; color:#6a5b58; font-size:12px; font-weight:700; line-height:1.65; }
+.profile-intro-copy p.profile-intro-thanks { margin-left:-16px; margin-right:-16px; color:#9a5c55; font-size:13px; letter-spacing:-.1em; line-height:1.4; white-space:nowrap !important; }
+.profile-intro-tags { display:flex; flex-wrap:wrap; justify-content:center; gap:5px; }
+.profile-intro-tags span { padding:7px 10px; border-radius:999px; background:rgba(255,255,255,.72); color:#6a5b58; font-size:11px; font-weight:800; }
+@media (max-width:760px) {
+  .profile-card { height:170px; display:block; padding:0; }
+  .profile-card-face { display:grid; grid-template-columns:120px minmax(0,1fr); gap:16px; align-items:center; padding:10px; }
+  .profile-card-face .photo-placeholder { height:150px; }
+  .profile-card-face .profile-meta { padding:0; }
+  .profile-card-back { display:flex; }
+  .profile-gemini-trigger { bottom:-6px; width:68px; height:68px; }
+  .profile-gemini-trigger:before { right:0; bottom:47px; padding:4px 7px; font-size:11px; }
+  .profile-intro-copy { gap:6px; padding:0 7px; }
+  .profile-intro-copy > span { padding:3px 6px; font-size:7px; }
+  .profile-intro-copy > strong { font-size:18px; line-height:1.22; }
+  .profile-intro-copy p { font-size:8px; line-height:1.35; }
+  .profile-intro-tags { gap:3px; }
+  .profile-intro-tags span { padding:4px 6px; font-size:8px; }
+}
 
 .skills-section { padding-top:110px; padding-bottom:120px; background:var(--paper); }
 .skills-split { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
@@ -141,6 +175,16 @@ main .hero-description { font-size:15px !important; }.career-entry-description {
 .project-readme-document section > p.project-site-link { margin-top:15px; color:var(--blue-dark); font-size:12px; font-weight:800; overflow-wrap:anywhere; }
 .project-site-link strong { color:var(--ink); }
 .project-site-link a { color:var(--blue-dark); font-weight:900; text-decoration:underline; text-decoration-thickness:1.5px; text-underline-offset:3px; }
+
+.project-template-stack { padding-bottom:0; border-bottom:0; }
+.project-readme-action { margin-top:auto; padding-top:14px; border-top:1px solid rgba(255,255,255,.16); }
+.project-readme-action .readme-button { margin-top:0; }
+.readme-button { border:1px solid rgba(255,255,255,.22); box-shadow:0 7px 16px rgba(0,0,0,.14); }
+@media (min-width:761px) { .project-template-card,.project-template-inner { min-height:350px; } }
+@media (max-width:760px) {
+  .project-template-card:first-child,.project-template-card:first-child .project-template-inner { min-height:382px; }
+  .project-template-card.mint,.project-template-card.mint .project-template-inner { min-height:402px; }
+}
 
 .project-template-card.portfolio-card .project-template-front h3 { font-size:clamp(22px,calc(2.6vw - 5px),32px); }
 

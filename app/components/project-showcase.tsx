@@ -102,7 +102,7 @@ const projectTemplates: ProjectTemplate[] = [
     title: "감정 일기장",
     category: "개인 프로젝트 02",
     summary: "오늘의 감정에, AI와 너의 답장이 오는 커플 감정 일기 서비스입니다. 기록·댓글·통계로 두 사람의 마음을 함께 돌아봅니다.",
-    stack: ["React", "TypeScript", "Vite", "PWA", "Java 21", "Spring Boot", "JPA", "PostgreSQL", "Supabase", "Docker", "Render", "Vercel", "Claude API", "FCM"],
+    stack: ["React", "TypeScript", "Vite", "PWA", "Java 21", "Spring Boot", "JPA", "PostgreSQL", "Supabase", "Docker", "Render", "Vercel", "UptimeRobot", "Claude API", "FCM"],
     tone: "mint",
     readme: {
       overview: "감정을 글로 남기고 싶지만 혼자서는 이어가기 힘든 커플을 위한 AI 감정 일기입니다. 하루를 기록하면 선택한 페르소나의 AI가 감정을 읽고 답해주며, 서로의 일기에 댓글로 반응해 기록이 대화로 이어집니다. 월간 감정 통계와 두 사람의 감정 동기화로 마음의 흐름을 함께 돌아볼 수 있습니다.",
@@ -116,9 +116,10 @@ const projectTemplates: ProjectTemplate[] = [
           { category: "사용량 제어", name: "@Primary 데코레이터", reason: "기존 AI 서비스 변경 없이 호출 수·토큰을 계측하고, DB 동적 설정 기반 일일 한도 초과 시 429를 반환합니다." },
           { category: "데이터 접근", name: "커서 페이지네이션 · 검색 추상화", reason: "타임라인은 오프셋 페이징의 성능·일관성 문제를 피하기 위해 커서 기반으로 구현했고, 운영 PostgreSQL 전문검색과 로컬 H2 LIKE를 인터페이스로 분리했습니다." },
           { category: "인증과 권한", name: "JWT · OAuth2 · RBAC", reason: "Google OAuth2 로그인 뒤 Access 30분·Refresh 14일 로테이션을 적용하고, @PreAuthorize 기반 관리자 권한을 분리했습니다." },
+          { category: "무료 플랜 운영", name: "UptimeRobot · 5분 헬스체크", reason: "Render 무료 플랜은 약 15분 동안 요청이 없으면 서버가 sleep 상태로 전환되어 첫 요청이 느려질 수 있습니다. UptimeRobot이 5분마다 헬스체크 엔드포인트를 호출하도록 구성해 서버가 응답 가능한 상태를 유지했습니다." },
         ],
-        diagram: { client: "사용자 · React PWA · Vercel", api: "Spring Boot API · Render Docker", dependencies: ["PostgreSQL · Supabase", "Supabase Storage · S3", "Claude API → OpenAI 폴백", "FCM 웹 푸시"] },
-        deployment: "프론트엔드는 Vercel, 백엔드는 멀티스테이지 Dockerfile 기반 Render, 데이터베이스와 스토리지는 Supabase로 운영합니다. 시크릿은 코드가 아닌 배포 플랫폼 환경변수로 관리하며, JWT·CORS 출처 제한·@PreAuthorize RBAC·AI 일일 한도·헬스체크로 운영 환경을 보호합니다.",
+        diagram: { client: "사용자 · React PWA · Vercel", api: "Spring Boot API · Render Docker", dependencies: ["PostgreSQL · Supabase", "Supabase Storage · S3", "Claude API → OpenAI 폴백", "FCM 웹 푸시", "UptimeRobot · 5분 헬스체크"] },
+        deployment: "프론트엔드는 Vercel, 백엔드는 멀티스테이지 Dockerfile 기반 Render, 데이터베이스와 스토리지는 Supabase로 운영합니다. Render 무료 플랜은 약 15분간 요청이 없으면 서버가 sleep 상태로 전환될 수 있어, UptimeRobot이 5분마다 헬스체크 엔드포인트를 호출하도록 구성했습니다. 이를 통해 첫 요청 시 발생할 수 있는 콜드스타트를 줄이고 서버가 응답 가능한 상태를 유지합니다. 시크릿은 코드가 아닌 배포 플랫폼 환경변수로 관리하며, JWT·CORS 출처 제한·@PreAuthorize RBAC·AI 일일 한도로 운영 환경을 보호합니다.",
       },
       implementation: {
         overview: "‘혼자 쓰는 일기는 반응이 없어 지속하기 어렵다’는 문제에서 시작해 AI 답변과 커플 상호작용으로 기록에 반응을 보장하는 서비스로 설계했습니다. 도메인별 기능을 완결 단위로 구현하고, 실제 운영 환경에서 발생한 데이터베이스·배포·PWA 캐시 문제까지 재현하며 해결했습니다.",
@@ -250,9 +251,11 @@ export default function ProjectShowcase() {
                   <div className="project-template-stack">
                     {project.stack.map((skill) => <span key={skill}>{skill}</span>)}
                   </div>
-                  <button className="readme-button" type="button" onClick={() => openReadme(project)}>
-                    README.md <b>→</b>
-                  </button>
+                  <div className="project-readme-action">
+                    <button className="readme-button" type="button" onClick={() => openReadme(project)}>
+                      README.md <b>→</b>
+                    </button>
+                  </div>
                   <button className="project-back-button" type="button" onClick={() => setFlippedProject(null)}>
                     앞면으로 돌아가기
                   </button>
