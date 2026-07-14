@@ -137,9 +137,17 @@ const projectTemplates: ProjectTemplate[] = [
     note: "해당 프로젝트는 Claude Code를 통해 개발된 프로젝트 입니다.",
   },
   {
+    id: "devpet",
+    title: "DevPet",
+    category: "개인 프로젝트 03",
+    summary: "현재 프로젝트 정리 중입니다.",
+    stack: ["Research", "Prototype", "Docs"],
+    tone: "lavender",
+  },
+  {
     id: "experiment",
     title: "공부 자동 정리",
-    category: "개인 프로젝트 03",
+    category: "개인 프로젝트 04",
     summary: "현재 프로젝트 정리 중입니다.",
     stack: ["Research", "Prototype", "Docs"],
     tone: "peach",
