@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 type ReadmeDocument = {
   overview: string;
+  siteUrl?: string;
   features: string[];
   architecture: {
     description: string;
@@ -105,6 +106,7 @@ const projectTemplates: ProjectTemplate[] = [
     tone: "mint",
     readme: {
       overview: "감정을 글로 남기고 싶지만 혼자서는 이어가기 힘든 커플을 위한 AI 감정 일기입니다. 하루를 기록하면 선택한 페르소나의 AI가 감정을 읽고 답해주며, 서로의 일기에 댓글로 반응해 기록이 대화로 이어집니다. 월간 감정 통계와 두 사람의 감정 동기화로 마음의 흐름을 함께 돌아볼 수 있습니다.",
+      siteUrl: "https://today-my-diary.vercel.app/login",
       features: ["AI 감정 일기: 선택한 페르소나에 맞춰 감정 분석과 답변을 생성하고, 다른 컨셉으로 재생성할 수 있습니다.", "커플 연결과 소통: 초대 코드로 연결한 두 사람만 서로의 일기를 캘린더에서 열람하고 댓글을 남길 수 있습니다.", "감정 통계와 동기화: 월간 감정 분포·추이·평균과 일별 감정 점수 상관도 기반의 동기화율을 제공합니다.", "검색과 기록 확장: 키워드·감정·기간 검색, 버킷리스트, 이미지 첨부, 리마인더를 지원합니다.", "운영 제어: 관리자 RBAC, AI 호출·토큰 집계, 일일 한도 제어를 제공합니다.", "게스트 데모: 게스트 체험은 브라우저 세션 목 데이터로 동작하며, 실제 서비스 데이터베이스에 영향을 주지 않습니다."],
       architecture: {
         description: "도메인별 수직 분리의 모듈형 모놀리스로 구성하고, AI·스토리지·푸시처럼 교체나 장애 가능성이 있는 외부 연동은 포트&어댑터로 격리했습니다. 일기 작성과 통계의 AI 요약은 비동기 처리해 사용자 요청을 외부 API 지연으로 막지 않습니다.",
@@ -281,7 +283,7 @@ export default function ProjectShowcase() {
                 {(() => {
                   const readme = selectedProject.readme ?? defaultReadme;
                   return <>
-                    <section id="readme-overview" onClick={() => setActiveSection("readme-overview")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>01</span>{"\u00A0\u00A0"}프로젝트 개요</h4><p>{readme.overview}</p></section>
+                    <section id="readme-overview" onClick={() => setActiveSection("readme-overview")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>01</span>{"\u00A0\u00A0"}프로젝트 개요</h4><p>{readme.overview}</p>{readme.siteUrl && <p>사이트 URL: <a href={readme.siteUrl} target="_blank" rel="noreferrer">{readme.siteUrl}</a></p>}</section>
                     <section id="readme-features" onClick={() => setActiveSection("readme-features")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>02</span>{"\u00A0\u00A0"}핵심 기능</h4><ul>{readme.features.map((feature) => <li key={feature}>{feature}</li>)}</ul></section>
                     <section id="readme-architecture" onClick={() => setActiveSection("readme-architecture")}>
                       <h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>03</span>{"\u00A0\u00A0"}구조와 기술 선택</h4>
