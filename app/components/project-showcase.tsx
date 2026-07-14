@@ -8,6 +8,7 @@ type ReadmeDocument = {
   architecture: {
     description: string;
     choices: { category: string; name: string; reason: string }[];
+    diagram?: { client: string; api: string; dependencies: string[] };
     deployment: string;
   };
   implementation: {
@@ -99,9 +100,39 @@ const projectTemplates: ProjectTemplate[] = [
     id: "infrastructure",
     title: "감정 일기장",
     category: "개인 프로젝트 02",
-    summary: "현재 프로젝트 정리 중입니다.",
-    stack: ["Cloud", "Docker", "CI/CD"],
+    summary: "오늘의 감정에, AI와 너의 답장이 오는 커플 감정 일기 서비스입니다. 기록·댓글·통계로 두 사람의 마음을 함께 돌아봅니다.",
+    stack: ["React", "TypeScript", "Vite", "PWA", "Java 21", "Spring Boot", "JPA", "PostgreSQL", "Supabase", "Docker", "Render", "Vercel", "Claude API", "FCM"],
     tone: "mint",
+    readme: {
+      overview: "감정을 글로 남기고 싶지만 혼자서는 이어가기 힘든 커플을 위한 AI 감정 일기입니다. 하루를 기록하면 선택한 페르소나의 AI가 감정을 읽고 답해주며, 서로의 일기에 댓글로 반응해 기록이 대화로 이어집니다. 월간 감정 통계와 두 사람의 감정 동기화로 마음의 흐름을 함께 돌아볼 수 있습니다.",
+      features: ["AI 감정 일기: 선택한 페르소나에 맞춰 감정 분석과 답변을 생성하고, 다른 컨셉으로 재생성할 수 있습니다.", "커플 연결과 소통: 초대 코드로 연결한 두 사람만 서로의 일기를 캘린더에서 열람하고 댓글을 남길 수 있습니다.", "감정 통계와 동기화: 월간 감정 분포·추이·평균과 일별 감정 점수 상관도 기반의 동기화율을 제공합니다.", "검색과 기록 확장: 키워드·감정·기간 검색, 버킷리스트, 이미지 첨부, 리마인더를 지원합니다.", "운영 제어: 관리자 RBAC, AI 호출·토큰 집계, 일일 한도 제어를 제공합니다.", "게스트 데모: 로그인 없이 브라우저 세션 목 데이터로 서비스를 체험할 수 있어 운영 DB에 영향을 주지 않습니다."],
+      architecture: {
+        description: "도메인별 수직 분리의 모듈형 모놀리스로 구성하고, AI·스토리지·푸시처럼 교체나 장애 가능성이 있는 외부 연동은 포트&어댑터로 격리했습니다. 일기 작성과 통계의 AI 요약은 비동기 처리해 사용자 요청을 외부 API 지연으로 막지 않습니다.",
+        choices: [
+          { category: "AI 이중화", name: "전략 패턴 · 포트&어댑터", reason: "AiProvider 추상화 뒤에 Claude와 OpenAI를 두고, Claude 장애·한도·요금 변화 시 OpenAI로 자동 폴백합니다. 실제 응답 Provider도 기록해 관측 가능하게 했습니다." },
+          { category: "비동기 처리", name: "@Async · 도메인 이벤트", reason: "약 15초가 걸릴 수 있는 AI 분석과 통계 요약을 백그라운드로 분리해 일기 작성은 즉시 응답합니다. 대신 분석 중 상태와 폴링 UI, 요약 실패 방어 로직을 함께 설계했습니다." },
+          { category: "사용량 제어", name: "@Primary 데코레이터", reason: "기존 AI 서비스 변경 없이 호출 수·토큰을 계측하고, DB 동적 설정 기반 일일 한도 초과 시 429를 반환합니다." },
+          { category: "데이터 접근", name: "커서 페이지네이션 · 검색 추상화", reason: "타임라인은 오프셋 페이징의 성능·일관성 문제를 피하기 위해 커서 기반으로 구현했고, 운영 PostgreSQL 전문검색과 로컬 H2 LIKE를 인터페이스로 분리했습니다." },
+          { category: "인증과 권한", name: "JWT · OAuth2 · RBAC", reason: "Google OAuth2 로그인 뒤 Access 30분·Refresh 14일 로테이션을 적용하고, @PreAuthorize 기반 관리자 권한을 분리했습니다." },
+        ],
+        diagram: { client: "사용자 · React PWA · Vercel", api: "Spring Boot API · Render Docker", dependencies: ["PostgreSQL · Supabase", "Supabase Storage · S3", "Claude API → OpenAI 폴백", "FCM 웹 푸시"] },
+        deployment: "프론트엔드는 Vercel, 백엔드는 멀티스테이지 Dockerfile 기반 Render, 데이터베이스와 스토리지는 Supabase로 운영합니다. 시크릿은 코드가 아닌 배포 플랫폼 환경변수로 관리하며, JWT·CORS 출처 제한·@PreAuthorize RBAC·AI 일일 한도·헬스체크로 운영 환경을 보호합니다.",
+      },
+      implementation: {
+        overview: "‘혼자 쓰는 일기는 반응이 없어 지속하기 어렵다’는 문제에서 시작해 AI 답변과 커플 상호작용으로 기록에 반응을 보장하는 서비스로 설계했습니다. 도메인별 기능을 완결 단위로 구현하고, 실제 운영 환경에서 발생한 데이터베이스·배포·PWA 캐시 문제까지 재현하며 해결했습니다.",
+        steps: [
+          { label: "01", title: "문제 정의", description: "기록에 반응이 없어 지속하기 어려운 커플의 문제를 정의하고, AI 답변과 상대 댓글이라는 두 겹의 피드백을 핵심 가치로 설정했습니다." },
+          { label: "02", title: "도메인과 경계 설계", description: "사용자·커플·일기·댓글·통계를 수직 분리하고, AI·스토리지·푸시는 포트&어댑터로 격리했습니다." },
+          { label: "03", title: "핵심 흐름 구현", description: "인증·커플 연결부터 일기와 AI, 댓글·캘린더, 통계·동기화, 검색·이미지·알림·관리자 기능 순으로 완성했습니다." },
+          { label: "04", title: "외부 지연 분리", description: "AI 응답이 요청을 막지 않도록 @Async와 이벤트로 분리하고, 전략·폴백과 데코레이터 계측을 적용했습니다." },
+          { label: "05", title: "운영 장애 재현", description: "운영 PostgreSQL에서 삭제·통계만 500이 나는 문제를 직접 재현해 @Lob String의 oid 매핑을 text 마이그레이션으로 변경했습니다." },
+          { label: "06", title: "검증과 배포", description: "JUnit5·MockMvc 기반 약 100개의 테스트를 작성하고, Render·Vercel·Supabase의 콜드스타트·CORS·환경변수·PWA 캐시 이슈를 확인했습니다." },
+          { label: "07", title: "다음 개선", description: "Flyway 스키마 형상관리, GitHub Actions CI 정비, 콜드스타트 대응, 게스트 데모의 실 AI 연동 옵션을 계획하고 있습니다." },
+        ],
+        principles: ["외부 의존은 경계 뒤로 숨겨 교체·장애·이중화가 비즈니스 코드 변경 없이 가능하도록 설계했습니다.", "느린 외부 AI 호출은 사용자 요청과 분리하되, 분석 중 상태와 실패 방어까지 함께 설계했습니다.", "로컬에서 통과한 코드도 운영 PostgreSQL과 커넥션 환경에서 직접 재현해 검증했습니다.", "통계의 AI 요약이 실패해도 숫자 결과는 반드시 응답하도록 부가 기능 장애가 핵심 기능을 끌어내리지 않게 했습니다.", "커밋 메타데이터와 서비스 워커 캐시까지 배포의 일부로 보고 원인을 확인했습니다."],
+      },
+    },
+    note: "게스트 체험은 브라우저 세션 목 데이터로 동작하며, 실제 서비스 데이터베이스에 영향을 주지 않습니다.",
   },
   {
     id: "experiment",
@@ -252,7 +283,22 @@ export default function ProjectShowcase() {
                   return <>
                     <section id="readme-overview" onClick={() => setActiveSection("readme-overview")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>01</span>{"\u00A0\u00A0"}프로젝트 개요</h4><p>{readme.overview}</p></section>
                     <section id="readme-features" onClick={() => setActiveSection("readme-features")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>02</span>{"\u00A0\u00A0"}핵심 기능</h4><ul>{readme.features.map((feature) => <li key={feature}>{feature}</li>)}</ul></section>
-                    <section id="readme-architecture" onClick={() => setActiveSection("readme-architecture")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>03</span>{"\u00A0\u00A0"}구조와 기술 선택</h4><p>{readme.architecture.description}</p><div className="architecture-choice-list">{readme.architecture.choices.map((choice) => <article key={choice.name}><strong className="architecture-inline-title"><span>{choice.category}</span>{"\u00A0\u00A0"}{choice.name}</strong><p>{choice.reason}</p></article>)}</div><div className="deployment-plan"><span>배포 방식</span><strong>GitHub → Vercel</strong><p>{readme.architecture.deployment}</p></div></section>
+                    <section id="readme-architecture" onClick={() => setActiveSection("readme-architecture")}>
+                      <h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>03</span>{"\u00A0\u00A0"}구조와 기술 선택</h4>
+                      <p>{readme.architecture.description}</p>
+                      {readme.architecture.diagram && (
+                        <div className="architecture-diagram" aria-label="서비스 아키텍처 구성도">
+                          <div className="architecture-diagram-core">
+                            <strong>{readme.architecture.diagram.client}</strong><span aria-hidden="true">→</span><strong>{readme.architecture.diagram.api}</strong>
+                          </div>
+                          <div className="architecture-diagram-dependencies">
+                            {readme.architecture.diagram.dependencies.map((dependency) => <span key={dependency}>{dependency}</span>)}
+                          </div>
+                        </div>
+                      )}
+                      <div className="architecture-choice-list">{readme.architecture.choices.map((choice) => <article key={choice.name}><strong className="architecture-inline-title"><span>{choice.category}</span>{"\u00A0\u00A0"}{choice.name}</strong><p>{choice.reason}</p></article>)}</div>
+                      <div className="deployment-plan"><span>배포 방식</span><strong>배포 · 운영 환경</strong><p>{readme.architecture.deployment}</p></div>
+                    </section>
                     <section id="readme-implementation" onClick={() => setActiveSection("readme-implementation")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>04</span>{"\u00A0\u00A0"}프로젝트 개발 처음부터 끝</h4><p>{readme.implementation.overview}</p><div className="vibe-process-list" style={{ display: "grid", gridTemplateColumns: isCompact ? "1fr" : "repeat(2, minmax(0, 1fr))", gap: 10 }}>{readme.implementation.steps.map((step, index) => <article key={step.label} style={{ display: "flex", flexDirection: "column", minHeight: 164, padding: 18, borderRadius: 16, border: "1px solid rgba(74, 84, 100, .08)", background: ["var(--lavender)", "var(--mint)", "var(--peach)", "#f7f6f3", "var(--lavender)", "var(--mint)"][index] }}><span style={{ display: "grid", placeItems: "center", width: 30, height: 30, borderRadius: "50%", background: "var(--ink)", color: "#fff", fontSize: 10, fontWeight: 800 }}>{step.label}</span><h5 style={{ margin: "18px 0 7px", color: "var(--ink)", fontSize: 15, letterSpacing: "-.04em" }}>{step.title}</h5><p style={{ margin: 0, color: "#566170", fontSize: 11, fontWeight: 700, lineHeight: 1.65 }}>{step.description}</p></article>)}</div><div className="vibe-principles" style={{ marginTop: 12, padding: 18, borderRadius: 16, background: "#f3f1ff", color: "var(--ink)" }}><strong style={{ fontSize: 12 }}>AI Codex와 함께한 개발 원칙</strong><ul style={{ marginTop: 11 }}>{readme.implementation.principles.map((principle) => <li key={principle} style={{ color: "#566170" }}>{principle}</li>)}</ul></div></section>
                   </>;
                 })()}
