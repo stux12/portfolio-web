@@ -114,6 +114,7 @@ main .hero-description { font-size:15px !important; }.career-entry-description {
 @media (max-width:760px) { .vibe-process-list article { padding:13px; }.vibe-process-list p,.vibe-principles li { font-size:10px; } }
 
 @media (max-width:760px) { .project-template-card:first-child,.project-template-card:first-child .project-template-inner { min-height:352px; } }
+@media (max-width:760px) { .project-template-card.mint,.project-template-card.mint .project-template-inner { min-height:372px; } }
 
 .architecture-choice-list { grid-template-columns:repeat(2,minmax(0,1fr)); }
 .architecture-choice-list article { min-width:0; overflow-wrap:anywhere; }
