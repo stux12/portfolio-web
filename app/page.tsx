@@ -87,10 +87,8 @@ export default function Home() {
             <a className="primary-link" href="#career">커리어 살펴보기 <span>→</span></a>
           </div>
           <aside className="profile-card" aria-label="프로필 사진 영역">
-            <div className="photo-placeholder" role="img" aria-label="진환의 프로필 사진을 넣을 자리">
-              <span>PHOTO</span>
-              <strong>진환</strong>
-              <small>프로필 사진을<br />추가해 주세요</small>
+            <div className="photo-placeholder profile-photo-frame">
+              <Image className="profile-photo" src="/profile-jinhwan.png" alt="숲길을 걷는 김진환의 프로필 사진" width={896} height={1196} priority sizes="(max-width: 760px) 120px, 290px" />
             </div>
             <div className="profile-meta">
               <strong>김진환</strong>
