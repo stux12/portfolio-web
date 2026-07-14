@@ -283,7 +283,7 @@ export default function ProjectShowcase() {
                 {(() => {
                   const readme = selectedProject.readme ?? defaultReadme;
                   return <>
-                    <section id="readme-overview" onClick={() => setActiveSection("readme-overview")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>01</span>{"\u00A0\u00A0"}프로젝트 개요</h4><p>{readme.overview}</p>{readme.siteUrl && <p>사이트 URL: <a href={readme.siteUrl} target="_blank" rel="noreferrer">{readme.siteUrl}</a></p>}</section>
+                    <section id="readme-overview" onClick={() => setActiveSection("readme-overview")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>01</span>{"\u00A0\u00A0"}프로젝트 개요</h4><p>{readme.overview}</p>{readme.siteUrl && <p className="project-site-link">🔗 <strong>사이트 URL:</strong> <a href={readme.siteUrl} target="_blank" rel="noreferrer">{readme.siteUrl}</a></p>}</section>
                     <section id="readme-features" onClick={() => setActiveSection("readme-features")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>02</span>{"\u00A0\u00A0"}핵심 기능</h4><ul>{readme.features.map((feature) => <li key={feature}>{feature}</li>)}</ul></section>
                     <section id="readme-architecture" onClick={() => setActiveSection("readme-architecture")}>
                       <h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>03</span>{"\u00A0\u00A0"}구조와 기술 선택</h4>
