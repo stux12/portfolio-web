@@ -16,6 +16,7 @@ The public site is intentionally Korean-first. Keep existing Korean copy unless 
 4. Use `apply_patch` for text-file edits. Do not overwrite unrelated user changes.
 5. Do not use destructive Git commands such as `reset --hard` or `checkout --`.
 6. Keep commits small and describe their purpose clearly.
+7. Before work likely to consume substantial tokens—such as broad source audits, large-scale redesigns, repeated browser checks, or repeated deployment diagnostics—briefly explain the scope and obtain the user's approval. Routine, narrowly scoped edits and their essential verification may proceed without an extra confirmation.
 
 ## Repository map
 

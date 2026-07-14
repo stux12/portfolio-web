@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 type ReadmeDocument = {
   overview: string;
   siteUrl?: string;
+  repositoryUrl?: string;
   features: string[];
   architecture: {
     description: string;
@@ -141,14 +142,73 @@ const projectTemplates: ProjectTemplate[] = [
     id: "devpet",
     title: "DevPet",
     category: "개인 프로젝트 03",
-    summary: "현재 프로젝트 정리 중입니다.",
-    stack: ["Research", "Prototype", "Docs"],
-    tone: "lavender",
+    summary: "AI 코딩 작업 상태와 시스템 사용량을 귀여운 데스크톱 펫으로 알려주는 Windows 앱입니다.",
+    stack: ["Rust", "Tauri v2", "HTML", "Vanilla JS", "CSS", "SVG", "sysinfo", "Windows API", "Discord Webhook", "GitHub Releases"],
+    tone: "peach",
+    readme: {
+      overview: "Claude Code와 Codex를 백그라운드에서 실행할 때 작업 완료나 승인 요청을 놓치지 않도록 만든 Windows 데스크톱 앱입니다. 화면 위의 펫이 CPU·메모리·디스크 사용량을 표정과 수치로 보여주고, AI 작업 상태는 Windows 토스트와 펫 알림으로 전달합니다. 별도 설정 없이 실행만 하면 로컬 작업 기록을 감지합니다.",
+      repositoryUrl: "https://github.com/stux12/Dev_Pet",
+      features: [
+        "시스템 모니터링: CPU·메모리·디스크 사용량을 실시간으로 표시하고, 디스크 사용률이 90%를 넘으면 경고합니다.",
+        "AI 작업 완료·승인 알림: Claude Code CLI·데스크톱 앱과 Codex의 로컬 세션 기록을 감지해 완료와 승인 필요 상태를 구분해 알립니다.",
+        "알림 목록과 소리: 트레이 아이콘에서 최근 알림을 확인하고, 완료·승인 상태별 소리와 중복 알림 정리를 제공합니다.",
+        "백그라운드 동작: 창을 닫으면 트레이로 이동하고, 백그라운드에서는 Windows 토스트만 표시합니다. 토스트나 트레이 아이콘을 누르면 창을 다시 엽니다.",
+        "데스크톱 편의 기능: 드래그 이동, 항상 위 표시, 투명도 조절, 무시 모드, 단일 인스턴스 실행과 Discord 웹훅 알림을 지원합니다.",
+      ],
+      architecture: {
+        description: "가벼운 WebView UI와 Rust 데스크톱 코어를 Tauri IPC로 연결했습니다. AI API를 호출하지 않고 Claude·Codex가 로컬에 남기는 JSONL 세션 기록을 증분 감시해 상태를 추정하며, 시스템 지표와 OS 알림은 Rust 코어가 직접 담당합니다.",
+        choices: [
+          { category: "데스크톱 프레임워크", name: "Rust · Tauri v2", reason: "Electron보다 가벼운 번들과 메모리 사용량을 목표로 했고, 트레이·토스트·창 제어 같은 Windows API에 직접 연결하기 위해 선택했습니다." },
+          { category: "UI", name: "HTML · Vanilla JS · CSS · SVG", reason: "Vite를 포함해 약 40MB 수준의 경량 앱을 목표로, 별도 프레임워크 없이 WebView에서 바로 동작하는 펫 UI와 알림 목록을 구성했습니다." },
+          { category: "작업 상태 감지", name: "JSONL 파일 감시 · 증분 읽기", reason: "CLI와 데스크톱 앱을 실행하지 않는 상태에서도 모두 감지해야 했습니다. ~/.claude/projects와 ~/.codex/sessions의 기록을 감시하는 방식으로 범위를 넓혔고, 1~2초 지연과 추정 기반 판정은 트레이드오프로 문서화했습니다." },
+          { category: "완료·승인 판정", name: "로그 구조 기반 휴리스틱", reason: "명시적인 승인 대기 필드가 없는 로그 구조를 직접 확인했습니다. 마지막 메시지와 도구 호출 결과를 조합해 완료·승인을 구분하며, 자동 승인형 긴 Bash 실행은 오판 가능성이 있어 개선 항목으로 남겼습니다." },
+          { category: "로컬 데이터", name: "파일 시스템 · localStorage", reason: "서버나 DB 없이 동작하도록 상태 감지는 로컬 파일을 직접 읽고, 알림 이력과 UI 설정은 브라우저 localStorage에 보관했습니다." },
+          { category: "OS 알림", name: "Windows API · tauri-winrt-notification", reason: "창이 보이면 펫 말풍선으로, 백그라운드면 Windows 토스트로 경로를 분기해 작업 흐름을 방해하지 않도록 했습니다. AUMID 등록 문제는 시작 메뉴 등록과 프로세스 식별을 함께 점검해 해결했습니다." },
+        ],
+        diagram: { client: "펫 UI · WebView2 · JS/SVG", api: "Rust 코어 · Tauri v2", dependencies: [".claude · .codex JSONL 세션 기록", "sysinfo · CPU/메모리/디스크", "Windows 트레이 · 토스트 · 창 제어", "Discord Webhook", "GitHub Releases · MSI"] },
+        deployment: "DevPet은 별도 서버 없이 로컬에서 동작하며, GitHub Releases를 통해 MSI 설치 파일로 배포했습니다. npm run tauri build로 실행 파일과 MSI 인스톨러를 생성하고, .msi 하나로 설치·업데이트할 수 있습니다. 버전은 Git 태그와 README의 업데이트 이력으로 관리하며, Tauri capabilities로 권한을 최소화하고 웹훅 URL은 로컬 설정으로만 다룹니다.",
+      },
+      implementation: {
+        overview: "AI 코딩 도구의 진행 상황을 계속 확인해야 하는 불편을 데스크톱 펫과 시스템 모니터링으로 해결하는 데서 시작했습니다. 명령 실행 방식의 한계를 실제 로그 구조로 검증하고 파일 감시 구조로 전환했으며, Windows 특유의 알림·트레이·AUMID 문제까지 원인을 분리해 해결했습니다.",
+        steps: [
+          { label: "01", title: "문제 정의", description: "백그라운드에서 실행한 AI 작업의 완료·승인 시점을 놓치는 문제를 정의하고, 시스템 상태를 함께 보여주는 데스크톱 펫으로 방향을 잡았습니다." },
+          { label: "02", title: "경계 설계", description: "WebView UI와 Rust 데스크톱 코어를 분리하고, UI는 IPC invoke·emit으로만 코어와 통신하도록 구성했습니다." },
+          { label: "03", title: "감지 방식 검증", description: "처음에는 CLI 명령 실행 방식을 검토했지만 데스크톱 앱 상태를 다루지 못하는 것을 확인했습니다. 이후 Claude·Codex 세션 JSONL 파일 감시와 증분 읽기로 전환했습니다." },
+          { label: "04", title: "상태·알림 구현", description: "시스템 지표 수집, 완료·승인 휴리스틱, 말풍선·토스트 분기, 알림 목록·소리·Discord 웹훅을 순서대로 구현했습니다." },
+          { label: "05", title: "Windows 이슈 해결", description: "Codex 창 제목이 이름 대신 다른 값으로 표시되는 문제는 후보 창 중 최근 제목을 선택하는 방식으로 보완했습니다. 백그라운드 토스트 미표시는 AUMID 등록과 시작 메뉴 등록 상태까지 진단해 해결했습니다." },
+          { label: "06", title: "검증과 배포", description: "로컬 HTTP 알림 엔드포인트(127.0.0.1:37651/notify)로 알림 경로를 직접 검증하고, 실제 Claude·Codex 로그로 제목·완료·승인 표시를 확인했습니다. 이후 MSI를 GitHub Releases에 게시했습니다." },
+          { label: "07", title: "다음 개선", description: "Bash 자동 승인과 승인 대기의 판별 정확도를 높이고, 승인 감지 신호와 부팅 시 자동 실행 설정 UI를 보강할 계획입니다." },
+        ],
+        principles: [
+          "막연한 가정 대신 실제 세션 기록을 다시 검증했습니다. 명령 실행이 모든 환경을 덮지 못한다는 사실을 확인한 뒤 파일 감시 방식으로 전환했습니다.",
+          "Windows·WebView의 제약은 코드만 보지 않고 트레이 서비스, AUMID, 시작 메뉴 등록 등 운영 환경까지 함께 확인해 원인을 분리했습니다.",
+          "UI는 WebView, 시스템·파일 감시·OS 연동은 Rust 코어로 경계를 나눠 각 영역을 단순하게 유지했습니다.",
+          "설치와 업데이트도 기능의 일부로 보고 MSI 배포, 버전 태그, 변경 이력을 함께 관리했습니다.",
+        ],
+      },
+    },
+      note: "해당 프로젝트는 Claude Code를 통해 개발된 프로젝트 입니다.",
   },
   {
     id: "experiment",
     title: "공부 자동 정리",
     category: "개인 프로젝트 04",
+    summary: "현재 프로젝트 정리 중입니다.",
+    stack: ["Research", "Prototype", "Docs"],
+    tone: "lavender",
+  },
+  {
+    id: "project-five",
+    title: "프로젝트 준비 중",
+    category: "개인 프로젝트 05",
+    summary: "현재 프로젝트 정리 중입니다.",
+    stack: ["Research", "Prototype", "Docs"],
+    tone: "mint",
+  },
+  {
+    id: "project-six",
+    title: "프로젝트 준비 중",
+    category: "개인 프로젝트 06",
     summary: "현재 프로젝트 정리 중입니다.",
     stack: ["Research", "Prototype", "Docs"],
     tone: "peach",
@@ -294,7 +354,7 @@ export default function ProjectShowcase() {
                 {(() => {
                   const readme = selectedProject.readme ?? defaultReadme;
                   return <>
-                    <section id="readme-overview" onClick={() => setActiveSection("readme-overview")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>01</span>{"\u00A0\u00A0"}프로젝트 개요</h4><p>{readme.overview}</p>{readme.siteUrl && <p className="project-site-link">🔗 <strong>사이트 URL:</strong> <a href={readme.siteUrl} target="_blank" rel="noreferrer">{readme.siteUrl}</a></p>}</section>
+                    <section id="readme-overview" onClick={() => setActiveSection("readme-overview")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>01</span>{"\u00A0\u00A0"}프로젝트 개요</h4><p>{readme.overview}</p>{readme.siteUrl && <p className="project-site-link">🔗 <strong>사이트 URL:</strong> <a href={readme.siteUrl} target="_blank" rel="noreferrer">{readme.siteUrl}</a></p>}{readme.repositoryUrl && <p className="project-site-link">🔗 <strong>공개 저장소:</strong> <a href={readme.repositoryUrl} target="_blank" rel="noreferrer">{readme.repositoryUrl}</a></p>}</section>
                     <section id="readme-features" onClick={() => setActiveSection("readme-features")}><h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>02</span>{"\u00A0\u00A0"}핵심 기능</h4><ul>{readme.features.map((feature) => <li key={feature}>{feature}</li>)}</ul></section>
                     <section id="readme-architecture" onClick={() => setActiveSection("readme-architecture")}>
                       <h4 className="readme-inline-title"><span style={{ fontSize: 17, fontWeight: 900 }}>03</span>{"\u00A0\u00A0"}구조와 기술 선택</h4>
