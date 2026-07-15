@@ -27,6 +27,7 @@ type ProjectTemplate = {
   summary: string;
   stack: string[];
   tone: "lavender" | "mint" | "peach";
+  isVisible?: boolean;
   readme?: ReadmeDocument;
   note?: string;
 };
@@ -204,6 +205,7 @@ const projectTemplates: ProjectTemplate[] = [
     summary: "현재 프로젝트 정리 중입니다.",
     stack: ["Research", "Prototype", "Docs"],
     tone: "mint",
+    isVisible: false,
   },
   {
     id: "project-six",
@@ -212,6 +214,7 @@ const projectTemplates: ProjectTemplate[] = [
     summary: "현재 프로젝트 정리 중입니다.",
     stack: ["Research", "Prototype", "Docs"],
     tone: "peach",
+    isVisible: false,
   },
 ];
 
@@ -285,7 +288,7 @@ export default function ProjectShowcase() {
   return (
     <>
       <div className="project-template-list">
-        {projectTemplates.map((project) => {
+        {projectTemplates.filter((project) => project.isVisible !== false).map((project) => {
           const isFlipped = flippedProject === project.id;
 
           return (
